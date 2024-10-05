@@ -1,0 +1,24 @@
+﻿Chat bot
+
+
+def institution_bot(question):
+    responder = {
+        'institution': 'MITE is an autonomous institution.',
+        'foodcourt': 'MITE has a food court.',
+        'hostel': 'MITE has a hostel.'
+    }
+    
+    question = question.lower()
+    for key in responder:
+        if key in question:
+            return responder[key]
+    
+    return "I'm sorry, I don't understand the question."
+
+
+while True:
+    user_input = input("Ask a question: ")
+    if user_input.lower() == 'exit':
+        break
+    response = institution_bot(user_input)
+    print(response)

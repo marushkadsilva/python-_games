@@ -1,0 +1,76 @@
+﻿import heapq
+
+
+def a_star(graph, start, goal, heuristic):
+    open_set = []
+    heapq.heappush(open_set, (0, start))  # (f_score, node)
+    came_from = {}
+    g_score = {node: float('inf') for node in graph}
+    g_score[start] = 0
+    f_score = {node: float('inf') for node in graph}
+    f_score[start] = heuristic(start, goal)
+
+
+    while open_set:
+        current_f, current = heapq.heappop(open_set)
+
+
+        if current == goal:
+            path = []
+            total_cost = g_score[goal]
+            while current in came_from:
+                path.append(current)
+                current = came_from[current]
+            path.append(start)
+            return path[::-1], total_cost
+
+
+        for neighbor, cost in graph[current]:
+            tentative_g_score = g_score[current] + cost
+            if tentative_g_score < g_score[neighbor]:
+                came_from[neighbor] = current
+                g_score[neighbor] = tentative_g_score
+                f_score[neighbor] = g_score[neighbor] + heuristic(neighbor, goal)
+                if neighbor not in (n for _, n in open_set):
+                    heapq.heappush(open_set, (f_score[neighbor], neighbor))
+
+
+    return None, float('inf')
+
+
+def heuristic(node, goal):
+    # Define your heuristic here
+    h_dist = {
+        'S': 14, 'B': 12, 'C': 11, 'D': 6, 'E': 4, 'F': 11, 'G': 0
+    }
+    return h_dist.get(node, float('inf'))  # Return inf if node is not in heuristic
+
+
+def main():
+    graph = {
+        'S': [('B', 4), ('C', 3)],
+        'B': [('F', 5), ('E', 12)],
+        'C': [('E', 10), ('D', 7)],
+        'D': [('E', 2)],
+        'E': [('G', 5)],
+        'F': [('G', 16)],
+        'G': [('G', 0)],
+    }
+
+
+    start_node = input("Enter the start node: ").strip().upper()
+    goal_node = input("Enter the goal node: ").strip().upper()
+
+
+    path, distance = a_star(graph, start_node, goal_node, heuristic)
+
+
+    if path:
+        print("Shortest path from {} to {}: {}".format(start_node, goal_node, path))
+        print("Path distance: {}".format(distance))
+    else:
+        print("No path found from {} to {}.".format(start_node, goal_node))
+
+
+if __name__ == "__main__":
+    main()

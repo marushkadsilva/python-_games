@@ -1,0 +1,39 @@
+﻿a = int(input("Enter Jug A Capacity: "))
+b = int(input("Enter Jug B Capacity: "))
+c= int(input("Initially Water in Jug A: "))
+d = int(input("Initially Water in Jug B: "))
+e = int(input("Final State of Jug A: "))
+f = int(input("Final State of Jug B: "))
+print(" Operations:\n")
+print("1.Fill Jug A \n")
+print("2.Fill Jug B \n")
+print("3.Empty Jug A \n")
+print("4.Empty Jug B \n")
+print("5.Pour From Jug A to B \n")
+print("6.Pour From Jug B to A \n")
+#loop
+while ((c != e or d!= f)):
+   op = int(input("Enter the Operation: "))
+   if (op == 1):
+       c = a
+   elif (op == 2):
+       d = b
+   elif (op == 3):
+       c= 0
+   elif (op == 4):
+       d = 0
+   elif (op == 5):
+       if (b- d>c):
+           d=c+d
+           c= 0
+       else:
+           c = c-(b-d)
+           d = b
+   elif (op == 6):
+           if (a-c > d):
+               c = c+d
+               d = 0
+           else:
+               d = d-(a-c)
+               c = a
+   print(c, d)
